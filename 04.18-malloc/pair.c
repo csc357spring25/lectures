@@ -6,11 +6,29 @@ int *pair(int, int);
 int main(void) {
     int *arr;
 
+    /* NOTE: If this pointer to dynamically allocated memory is never freed,
+     *       this would be a memory leak of 8 bytes. */
     arr = pair(1, 2);
+
+    /* NOTE: This is invalid; it makes no sense to deallocate memory on the
+     *       runtime stack:
+     * free(&arr); */
+
+    /* NOTE: This is also invalid; only entire dynamically allocated blocks
+     *       can be deallocated, not portions within blocks:
+     * free(arr + 1); */
 
     printf("arr: %p\n", (void *)arr);
     printf(" |- %p: %d\n", (void *)&arr[0], arr[0]);
     printf(" +- %p: %d\n", (void *)&arr[1], arr[1]);
+
+    /* NOTE: At this point, we no longer intend to use the memory, so we should
+     *       deallocate it: */
+    free(arr);
+
+    /* NOTE: This is also invalid; it makes no sense to deallocate the same
+     *       memory twice:
+     * free(arr); */
 
     return 0;
 }
