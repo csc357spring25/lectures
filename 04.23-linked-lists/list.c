@@ -13,16 +13,42 @@ List *lstcreate(void) {
 
 /* lstdestroy: Destroys an existing linked list. */
 void lstdestroy(List *lst) {
-    return;
+    /* NOTE: We cannot just free the list, otherwise we will lose access to the
+     *       nodes within it, which will never be freed. */
+    Node *node = lst->head;
+    int i;
+
+    for (i = 0; i < lst->size; i++) {
+        Node *tmp = node->next;
+        free(node);
+        node = tmp;
+    }
+
+    free(lst);
 }
 
 /* lstget: Gets an element in a linked list. */
 void *lstget(List *lst, int idx) {
-    return NULL;
+    Node *node = lst->head;
+    int i;
+
+    for (i = 0; i < idx; i++) {
+        node = node->next;
+    }
+
+    return node->val;
 }
 
 /* lstset: Sets an element in a linked list. */
 int lstset(List *lst, int idx, void *val) {
+    Node *node = lst->head;
+    int i;
+
+    for (i = 0; i < idx; i++) {
+        node = node->next;
+    }
+
+    node->val = val;
     return 0;
 }
 

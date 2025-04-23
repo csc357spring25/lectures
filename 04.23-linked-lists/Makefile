@@ -12,4 +12,4 @@ debug:
 
 test: debug
 	gcc $(CFLAGS) -g listtests.c list.o
-	./a.out
+	valgrind --leak-check=full --show-leak-kinds=all ./a.out
