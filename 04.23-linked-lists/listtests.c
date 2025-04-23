@@ -3,7 +3,7 @@
 #include "list.h"
 
 /* test01: Tests empty lists. */
-void test01() {
+void test01(void) {
     List *lst = lstcreate();
 
     assert(lst != NULL);
@@ -14,7 +14,7 @@ void test01() {
 }
 
 /* test02: Tests adding to lists. */
-void test02() {
+void test02(void) {
     List *lst = lstcreate();
 
     lstadd(lst, 0, (void *)97);
@@ -30,7 +30,7 @@ void test02() {
 }
 
 /* test03: Tests removing from lists. */
-void test03() {
+void test03(void) {
     List *lst = lstcreate();
 
     lstadd(lst, 0, (void *)98);

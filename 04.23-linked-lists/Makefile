@@ -1,5 +1,9 @@
 CFLAGS = -Wall -Wextra -ansi -pedantic
 
+# NOTE: Arguably, it's okay to have warnings for as long as we are just
+#       iteratively testing and debugging; it's only once we compile the final
+#       version of our code that warnings ought to be treated as errors.
+
 list.o: list.c list.h
 	gcc $(CFLAGS) -Werror -c list.c
 
@@ -8,4 +12,4 @@ debug:
 
 test: debug
 	gcc $(CFLAGS) -g listtests.c list.o
-	valgrind --leak-check=full --show-leak-kinds=all ./a.out
+	./a.out

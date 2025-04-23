@@ -10,7 +10,7 @@ typedef struct List {
     int size;
 } List;
 
-List *lstcreate();
+List *lstcreate(void);
 void lstdestroy(List *);
 void *lstget(List *, int);
 int lstset(List *, int, void *);
