@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -Werror -ansi -pedantic
+CFLAGS = -Wall -Wextra -std=gnu11 -pedantic
 
 all: copy fcopy
 
