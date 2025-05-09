@@ -24,12 +24,31 @@ int main(int argc, char *argv[]) {
      *       is only guaranteed to contain a filename and an inode number. If
      *       we need other metadata, we have to call stat instead. */
 
+    /* TODO: For Asgn. 5, read in all of the directory entries and make copies
+     *       of at least their names, which can then be sorted in alphabetical
+     *       order before actually attempting to traverse any of them. */
+
     while ((entry = readdir(dir)) != NULL) {
         stat(entry->d_name, &buf);
         printf("\"%s\" -> %ld (%ld bytes in %ld blocks)\n",
          entry->d_name, (long)entry->d_ino,
          (long)buf.st_size, (long)buf.st_blocks);
     }
+
+    /* TODO: For Asgn. 5, make this functionality recursive: if a directory
+     *       entry is itself a directory, recurse on that entry before moving
+     *       on to the next entry:
+     *
+     * while (...) {
+     *     ...
+     *     if (S_ISDIR(buf.st_mode)) {
+     *         chdir(entry->d_name);
+     *         ...
+     *         chdir("..");
+     *     }
+     *     ...
+     * }
+     */
 
     closedir(dir);
 
