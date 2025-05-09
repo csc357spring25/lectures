@@ -7,16 +7,27 @@
 
 #define LINELEN 81
 
-int fsearch(char *, char *);
-
 int main(int argc, char *argv[]) {
     int i, status = EXIT_FAILURE, tmp;
     pid_t pid;
 
     for (i = 2; i < argc; i++) {
         if ((pid = fork()) == 0) {
-            status = fsearch(argv[i], argv[1]);
-            exit(status);
+            /* NOTE: The existing grep utility already knows how to search a
+             *       file; rather than rewriting that logic; we can replace the
+             *       child process with the grep executable.
+             * status = fsearch(argv[i], argv[1]); */
+
+            /* NOTE: We must replace the child rather than the parent, because
+             *       only the parent knows to wait for the other children. By
+             *       convention, the first argument is the executable's name. */
+            execlp("grep", "grep", argv[1], argv[i], NULL);
+
+            /* NOTE: Since exec replaces the current process with another
+             *       executable, the only way to get this far is if the call to
+             *       exec failed. */
+            perror("exec");
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -27,22 +38,5 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    return status;
-}
-
-/* fsearch: Prints occurrences of a string in a file. */
-int fsearch(char *fname, char *str) {
-    int status = EXIT_FAILURE;
-    char buf[LINELEN];
-    FILE *file = fopen(fname, "r");
-
-    while (fgets(buf, LINELEN, file) != NULL) {
-        if (strstr(buf, str) != NULL) {
-            printf("%s: %s", fname, buf);
-            status = EXIT_SUCCESS;
-        }
-    }
-
-    fclose(file);
     return status;
 }
